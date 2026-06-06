@@ -3,17 +3,20 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Hira Clock</title>
+  <title>Hira Bear Clock</title>
   <style>
     :root {
       color-scheme: light;
-      --bg: #f7f3ea;
-      --ink: #1d2528;
-      --muted: #667276;
-      --accent: #1f7a6d;
-      --rim: #d9cdb9;
-      --face: #fffaf0;
-      --shadow: rgba(29, 37, 40, 0.16);
+      --cream: #fff8ea;
+      --paper: #fffdf6;
+      --fur: #a96f35;
+      --fur-dark: #5b371d;
+      --fur-soft: #d5a66b;
+      --stitch: #f3e4ef;
+      --ink: #2a211b;
+      --muted: #7b6758;
+      --line: #ead7bd;
+      --shadow: rgba(58, 38, 20, 0.18);
     }
 
     * {
@@ -26,123 +29,345 @@
       display: grid;
       place-items: center;
       background:
-        radial-gradient(circle at 20% 15%, rgba(31, 122, 109, 0.12), transparent 28rem),
-        linear-gradient(135deg, #fffaf0 0%, var(--bg) 58%, #e9efe9 100%);
+        radial-gradient(circle at 12% 15%, rgba(213, 166, 107, 0.34), transparent 22rem),
+        radial-gradient(circle at 86% 82%, rgba(243, 228, 239, 0.9), transparent 18rem),
+        linear-gradient(135deg, #fffaf0 0%, #f6ead8 55%, #efe1cd 100%);
       color: var(--ink);
       font-family: "Segoe UI", system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
     }
 
     main {
-      width: min(92vw, 620px);
+      width: min(1120px, 92vw);
+      min-height: min(720px, 92vh);
+      display: grid;
+      grid-template-columns: minmax(280px, 0.92fr) minmax(300px, 1.08fr);
+      align-items: center;
+      gap: clamp(1.5rem, 4vw, 4rem);
+      padding: clamp(1.25rem, 4vw, 3rem) 0;
+    }
+
+    .photo-panel {
+      position: relative;
+      min-height: 560px;
+      display: grid;
+      align-items: end;
+    }
+
+    .photo-frame {
+      position: relative;
+      width: min(430px, 100%);
+      aspect-ratio: 0.78;
+      margin: 0 auto;
+      overflow: hidden;
+      border: 10px solid var(--paper);
+      border-radius: 30px;
+      background: var(--paper);
+      box-shadow: 0 26px 70px var(--shadow);
+    }
+
+    .photo-frame img {
+      width: 100%;
+      height: 100%;
+      display: block;
+      object-fit: cover;
+      object-position: 52% 48%;
+      filter: saturate(1.04) contrast(1.03);
+    }
+
+    .photo-frame::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(180deg, transparent 62%, rgba(42, 33, 27, 0.38));
+      pointer-events: none;
+    }
+
+    .label {
+      position: absolute;
+      left: 50%;
+      bottom: 24px;
+      z-index: 1;
+      transform: translateX(-50%);
+      width: max-content;
+      max-width: calc(100% - 2rem);
+      padding: 0.7rem 1rem;
+      border: 1px solid rgba(255, 255, 255, 0.58);
+      border-radius: 999px;
+      background: rgba(255, 253, 246, 0.88);
+      color: var(--fur-dark);
+      font-weight: 800;
+      box-shadow: 0 12px 28px rgba(58, 38, 20, 0.14);
+      backdrop-filter: blur(10px);
+    }
+
+    .clock-panel {
+      display: grid;
+      justify-items: center;
       text-align: center;
+    }
+
+    .eyebrow {
+      margin: 0 0 0.9rem;
+      color: var(--fur);
+      font-size: 0.92rem;
+      font-weight: 800;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    h1 {
+      margin: 0 0 1.35rem;
+      font-size: clamp(2.2rem, 7vw, 5.5rem);
+      line-height: 0.95;
+      letter-spacing: 0;
     }
 
     .clock {
       position: relative;
-      width: min(82vw, 380px);
+      --clock-size: min(430px, 82vw);
+      width: var(--clock-size);
       aspect-ratio: 1;
-      margin: 0 auto 2rem;
-      border: 12px solid var(--rim);
+      margin: 0 auto 1.35rem;
+      border: 14px solid var(--fur-soft);
       border-radius: 50%;
-      background: var(--face);
-      box-shadow: 0 24px 60px var(--shadow), inset 0 0 0 1px rgba(29, 37, 40, 0.08);
+      background:
+        radial-gradient(circle at 50% 50%, rgba(255, 255, 255, 0.62) 0 3px, transparent 4px),
+        radial-gradient(circle at 50% 38%, #fffdf6 0%, var(--cream) 54%, #f3dfbf 100%);
+      box-shadow:
+        0 30px 80px var(--shadow),
+        inset 0 0 0 2px rgba(91, 55, 29, 0.08),
+        inset 0 -18px 36px rgba(169, 111, 53, 0.11);
+    }
+
+    .ear {
+      position: absolute;
+      top: 5%;
+      width: 26%;
+      aspect-ratio: 1;
+      border: 11px solid var(--fur-soft);
+      border-radius: 50%;
+      background: #f6dfbf;
+      box-shadow: inset 0 0 0 14px #fff6e7;
+    }
+
+    .ear.left {
+      left: 4%;
+    }
+
+    .ear.right {
+      right: 4%;
     }
 
     .tick {
       position: absolute;
       left: 50%;
       top: 50%;
-      width: 3px;
-      height: 14px;
-      background: var(--muted);
+      width: 5px;
+      height: 17px;
       border-radius: 999px;
-      transform-origin: 50% calc(-1 * (min(82vw, 380px) / 2 - 34px));
+      background: var(--muted);
+      transform-origin: 50% 50%;
+    }
+
+    .tick.major {
+      width: 9px;
+      height: 26px;
+      background: var(--fur-dark);
+    }
+
+    .paw {
+      position: absolute;
+      width: 34px;
+      height: 28px;
+      border-radius: 50% 50% 46% 46%;
+      background: var(--fur);
+      box-shadow:
+        -13px -10px 0 -6px var(--fur),
+        0 -14px 0 -6px var(--fur),
+        13px -10px 0 -6px var(--fur);
+      opacity: 0.92;
+    }
+
+    .paw.top {
+      left: 50%;
+      top: 42px;
+      transform: translateX(-50%);
+    }
+
+    .paw.right {
+      right: 42px;
+      top: 50%;
+      transform: translateY(-50%) rotate(90deg);
+    }
+
+    .paw.bottom {
+      left: 50%;
+      bottom: 42px;
+      transform: translateX(-50%) rotate(180deg);
+    }
+
+    .paw.left {
+      left: 42px;
+      top: 50%;
+      transform: translateY(-50%) rotate(-90deg);
     }
 
     .hand {
       position: absolute;
       left: 50%;
       bottom: 50%;
-      width: 6px;
       border-radius: 999px;
-      transform-origin: bottom center;
       transform: translateX(-50%) rotate(0deg);
+      transform-origin: bottom center;
     }
 
     .hour {
-      height: 26%;
-      background: var(--ink);
+      width: 9px;
+      height: 24%;
+      background: var(--fur-dark);
     }
 
     .minute {
-      height: 36%;
-      background: #2f3f43;
+      width: 7px;
+      height: 34%;
+      background: #7a4b25;
     }
 
     .second {
       width: 3px;
-      height: 40%;
-      background: var(--accent);
+      height: 39%;
+      background: #d48ba9;
     }
 
-    .pin {
+    .nose {
       position: absolute;
       left: 50%;
       top: 50%;
-      width: 18px;
-      height: 18px;
-      border: 4px solid var(--accent);
-      border-radius: 50%;
-      background: var(--face);
+      width: 28px;
+      height: 23px;
+      border-radius: 52% 52% 60% 60%;
+      background: var(--fur-dark);
       transform: translate(-50%, -50%);
+      box-shadow: 0 4px 0 rgba(91, 55, 29, 0.16);
     }
 
-    h1 {
-      margin: 0 0 0.75rem;
-      font-size: clamp(2rem, 8vw, 4.75rem);
-      font-weight: 800;
-      line-height: 1;
+    .digital {
+      margin: 0;
+      font-size: clamp(2.2rem, 8vw, 5rem);
+      font-weight: 900;
       font-variant-numeric: tabular-nums;
+      line-height: 1;
       letter-spacing: 0;
     }
 
-    p {
-      margin: 0;
+    .date {
+      margin: 0.8rem 0 0;
       color: var(--muted);
-      font-size: clamp(1rem, 3vw, 1.25rem);
+      font-size: clamp(1rem, 2.8vw, 1.25rem);
+      font-weight: 650;
     }
 
-    .zone {
-      margin-top: 0.7rem;
-      color: var(--accent);
-      font-weight: 700;
+    .note {
+      width: min(520px, 100%);
+      margin: 1.3rem 0 0;
+      padding-top: 1.1rem;
+      border-top: 1px solid var(--line);
+      color: #6d5747;
+      font-size: 1rem;
+      line-height: 1.7;
+    }
+
+    @media (max-width: 820px) {
+      main {
+        min-height: auto;
+        grid-template-columns: 1fr;
+        gap: 1.7rem;
+        padding: 1.2rem 0 2.4rem;
+      }
+
+      .photo-panel {
+        min-height: auto;
+        order: 2;
+      }
+
+      .photo-frame {
+        width: min(360px, 88vw);
+        border-radius: 24px;
+      }
+
+      .clock-panel {
+        order: 1;
+      }
+
+      .clock {
+        --clock-size: min(340px, 84vw);
+      }
+
+      .ear {
+        border-width: 8px;
+        box-shadow: inset 0 0 0 10px #fff6e7;
+      }
+
+      .paw.top {
+        top: 30px;
+      }
+
+      .paw.right {
+        right: 30px;
+      }
+
+      .paw.bottom {
+        bottom: 30px;
+      }
+
+      .paw.left {
+        left: 30px;
+      }
     }
   </style>
 </head>
 <body>
-  <main aria-label="Custom clock">
-    <section class="clock" aria-hidden="true">
-      <span class="tick"></span>
-      <span class="tick"></span>
-      <span class="tick"></span>
-      <span class="tick"></span>
-      <span class="tick"></span>
-      <span class="tick"></span>
-      <span class="tick"></span>
-      <span class="tick"></span>
-      <span class="tick"></span>
-      <span class="tick"></span>
-      <span class="tick"></span>
-      <span class="tick"></span>
-      <span class="hand hour" id="hourHand"></span>
-      <span class="hand minute" id="minuteHand"></span>
-      <span class="hand second" id="secondHand"></span>
-      <span class="pin"></span>
+  <main aria-label="Hira Bear Clock">
+    <section class="photo-panel" aria-label="Bear photo">
+      <figure class="photo-frame">
+        <img src="assets/bear-clock.jpeg" alt="Brown teddy bear with a soft white collar">
+        <figcaption class="label">Hira Bear Clock</figcaption>
+      </figure>
     </section>
 
-    <h1 id="digitalTime">00:00:00</h1>
-    <p id="dateText">Loading date...</p>
-    <p class="zone">Hira Clock</p>
+    <section class="clock-panel" aria-label="Clock">
+      <p class="eyebrow">Your handmade timekeeper</p>
+      <h1>Bear Clock</h1>
+
+      <div class="clock" aria-hidden="true">
+        <span class="ear left"></span>
+        <span class="ear right"></span>
+        <span class="paw top"></span>
+        <span class="paw right"></span>
+        <span class="paw bottom"></span>
+        <span class="paw left"></span>
+        <span class="tick"></span>
+        <span class="tick"></span>
+        <span class="tick"></span>
+        <span class="tick"></span>
+        <span class="tick"></span>
+        <span class="tick"></span>
+        <span class="tick"></span>
+        <span class="tick"></span>
+        <span class="tick"></span>
+        <span class="tick"></span>
+        <span class="tick"></span>
+        <span class="tick"></span>
+        <span class="hand hour" id="hourHand"></span>
+        <span class="hand minute" id="minuteHand"></span>
+        <span class="hand second" id="secondHand"></span>
+        <span class="nose"></span>
+      </div>
+
+      <p class="digital" id="digitalTime">00:00:00</p>
+      <p class="date" id="dateText">Loading date...</p>
+      <p class="note">A warm little clock built around your bear photo. The soft collar color became the pink second hand, and the fur color became the clock face.</p>
+    </section>
   </main>
 
   <script>
@@ -154,11 +379,10 @@
     const dateText = document.getElementById("dateText");
 
     ticks.forEach((tick, index) => {
-      tick.style.transform = `translate(-50%, -50%) rotate(${index * 30}deg) translateY(calc(-1 * (min(82vw, 380px) / 2 - 34px)))`;
-      if (index % 3 === 0) {
-        tick.style.height = "22px";
-        tick.style.background = "var(--ink)";
-      }
+      const angle = index * 30;
+      const distance = "calc(var(--clock-size) / 2 - 42px)";
+      tick.classList.toggle("major", index % 3 === 0);
+      tick.style.transform = `translate(-50%, -50%) rotate(${angle}deg) translateY(calc(-1 * ${distance}))`;
     });
 
     function pad(value) {
@@ -176,7 +400,6 @@
       hourHand.style.transform = `translateX(-50%) rotate(${(hours % 12) * 30 + minutes * 0.5}deg)`;
       minuteHand.style.transform = `translateX(-50%) rotate(${minutes * 6 + smoothSeconds * 0.1}deg)`;
       secondHand.style.transform = `translateX(-50%) rotate(${smoothSeconds * 6}deg)`;
-
       digitalTime.textContent = `${pad(hours)}:${pad(minutes)}:${pad(seconds)}`;
       dateText.textContent = now.toLocaleDateString("ja-JP", {
         year: "numeric",
