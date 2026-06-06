@@ -8,11 +8,12 @@
     :root {
       color-scheme: light;
       --cream: #fff8ea;
-      --paper: #fffdf6;
-      --fur: #a96f35;
-      --fur-dark: #5b371d;
-      --fur-soft: #d5a66b;
-      --stitch: #f3e4ef;
+      --paper: #fffdf8;
+      --fur: #b97836;
+      --fur-dark: #5a351b;
+      --fur-soft: #e0aa68;
+      --stitch: #f7dce8;
+      --stitch-dark: #d78cab;
       --ink: #2a211b;
       --muted: #7b6758;
       --line: #ead7bd;
@@ -40,45 +41,50 @@
       width: min(1120px, 92vw);
       min-height: min(720px, 92vh);
       display: grid;
-      grid-template-columns: minmax(280px, 0.92fr) minmax(300px, 1.08fr);
+      grid-template-columns: minmax(280px, 0.95fr) minmax(300px, 1.05fr);
       align-items: center;
       gap: clamp(1.5rem, 4vw, 4rem);
       padding: clamp(1.25rem, 4vw, 3rem) 0;
     }
 
-    .photo-panel {
+    .mascot-panel {
       position: relative;
       min-height: 560px;
       display: grid;
-      align-items: end;
+      place-items: center;
     }
 
-    .photo-frame {
+    .mascot-card {
       position: relative;
-      width: min(430px, 100%);
-      aspect-ratio: 0.78;
+      width: min(470px, 100%);
+      aspect-ratio: 1;
       margin: 0 auto;
       overflow: hidden;
-      border: 10px solid var(--paper);
-      border-radius: 30px;
-      background: var(--paper);
-      box-shadow: 0 26px 70px var(--shadow);
+      border: 12px solid var(--paper);
+      border-radius: 42px;
+      background:
+        radial-gradient(circle at 50% 48%, rgba(255, 255, 255, 0.9), transparent 18rem),
+        linear-gradient(145deg, #fffaf0, #f7dfbd);
+      box-shadow:
+        0 28px 80px var(--shadow),
+        inset 0 0 0 2px rgba(255, 255, 255, 0.75);
     }
 
-    .photo-frame img {
+    .mascot-card img {
       width: 100%;
       height: 100%;
       display: block;
       object-fit: cover;
-      object-position: 52% 48%;
-      filter: saturate(1.04) contrast(1.03);
+      object-position: 50% 50%;
+      filter: saturate(1.05) contrast(1.02);
     }
 
-    .photo-frame::after {
+    .mascot-card::before {
       content: "";
       position: absolute;
-      inset: 0;
-      background: linear-gradient(180deg, transparent 62%, rgba(42, 33, 27, 0.38));
+      inset: 18px;
+      border: 2px dashed rgba(215, 140, 171, 0.72);
+      border-radius: 30px;
       pointer-events: none;
     }
 
@@ -285,14 +291,14 @@
         padding: 1.2rem 0 2.4rem;
       }
 
-      .photo-panel {
+      .mascot-panel {
         min-height: auto;
         order: 2;
       }
 
-      .photo-frame {
+      .mascot-card {
         width: min(360px, 88vw);
-        border-radius: 24px;
+        border-radius: 32px;
       }
 
       .clock-panel {
@@ -328,16 +334,16 @@
 </head>
 <body>
   <main aria-label="Hira Bear Clock">
-    <section class="photo-panel" aria-label="Bear photo">
-      <figure class="photo-frame">
-        <img src="assets/bear-clock.jpeg" alt="Brown teddy bear with a soft white collar">
-        <figcaption class="label">Hira Bear Clock</figcaption>
+    <section class="mascot-panel" aria-label="Cute bear mascot">
+      <figure class="mascot-card">
+        <img src="assets/bear-cute.png" alt="Cute deformed brown teddy bear with a soft pale-pink collar">
+        <figcaption class="label">Cute Bear Clock</figcaption>
       </figure>
     </section>
 
     <section class="clock-panel" aria-label="Clock">
-      <p class="eyebrow">Your handmade timekeeper</p>
-      <h1>Bear Clock</h1>
+      <p class="eyebrow">Soft mascot timekeeper</p>
+      <h1>Cute Bear Clock</h1>
 
       <div class="clock" aria-hidden="true">
         <span class="ear left"></span>
@@ -366,7 +372,7 @@
 
       <p class="digital" id="digitalTime">00:00:00</p>
       <p class="date" id="dateText">Loading date...</p>
-      <p class="note">A warm little clock built around your bear photo. The soft collar color became the pink second hand, and the fur color became the clock face.</p>
+      <p class="note">A warmer clock redesigned with a cute deformed bear mascot. The collar inspired the pink accents, and the plush fur colors shape the clock face.</p>
     </section>
   </main>
 
